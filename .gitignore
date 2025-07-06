@@ -1,0 +1,25 @@
+# OS-specific
+.DS_Store
+Thumbs.db
+
+# IDEs and editors
+.vscode/
+.idea/
+
+# Log files
+*.log
+
+# Environment files
+.env
+
+# Composer dependencies (optional, if vendor is used)
+vendor/
+
+# Node (if ever added)
+node_modules/
+
+# Build artifacts
+*.zip
+*.tar.gz
+*.bak
+*.swp
