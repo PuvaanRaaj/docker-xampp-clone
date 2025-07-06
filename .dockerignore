@@ -1,0 +1,11 @@
+.git
+.gitignore
+docker-compose.override.yml
+node_modules
+*.log
+*.env
+.vscode
+.idea
+.DS_Store
+README.md
+testhost-content/index.html
