@@ -1,0 +1,40 @@
+version: '3.8'
+
+services:
+  web:
+    build:
+      context: ./apache-php
+    ports:
+      - "8080:80"          # http://localhost:8080
+    volumes:
+      - ./htdocs:/var/www/html
+    environment:
+      PHP_MEMORY_LIMIT: 512M          # example extra env
+    depends_on:
+      - db
+
+  db:
+    image: mariadb:11.4        # latest stable – multi-arch
+    environment:
+      MARIADB_ROOT_PASSWORD: root
+      MARIADB_DATABASE: devdb
+      MARIADB_USER: dev
+      MARIADB_PASSWORD: secret
+    ports:
+      - "3306:3306"
+    volumes:
+      - dbdata:/var/lib/mysql   # durable local volume
+
+  phpmyadmin:
+    image: phpmyadmin:latest   # multi-arch build
+    ports:
+      - "8081:80"              # http://localhost:8081
+    environment:
+      PMA_HOST: db
+      PMA_USER: root
+      PMA_PASSWORD: root
+    depends_on:
+      - db
+
+volumes:
+  dbdata:
