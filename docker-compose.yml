@@ -2,19 +2,20 @@ version: '3.8'
 
 services:
   web:
-    build:
-      context: ./apache-php
+    build: ./apache-php
     ports:
-      - "8080:80"          # http://localhost:8080
+      - "8080:80"
     volumes:
       - ./htdocs:/var/www/html
     environment:
-      PHP_MEMORY_LIMIT: 512M          # example extra env
+      PHP_MEMORY_LIMIT: 512M
     depends_on:
       - db
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
 
   db:
-    image: mariadb:11.4        # latest stable – multi-arch
+    image: mariadb:11.4
     environment:
       MARIADB_ROOT_PASSWORD: root
       MARIADB_DATABASE: devdb
@@ -23,18 +24,22 @@ services:
     ports:
       - "3306:3306"
     volumes:
-      - dbdata:/var/lib/mysql   # durable local volume
+      - dbdata:/var/lib/mysql
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
 
   phpmyadmin:
-    image: phpmyadmin:latest   # multi-arch build
+    image: phpmyadmin:latest
     ports:
-      - "8081:80"              # http://localhost:8081
+      - "8081:80"
     environment:
       PMA_HOST: db
       PMA_USER: root
       PMA_PASSWORD: root
     depends_on:
       - db
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
 
 volumes:
   dbdata:
